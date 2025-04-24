@@ -1,0 +1,55 @@
+services:
+  portfolio-dev:
+    image: qrius-portfolio
+    build:
+      target: dev
+      context: ./applications/Qrius-Portfolio
+      dockerfile: Dockerfile
+    volumes:
+      - ./applications/Qrius-Portfolio:/app
+      - /app/node_modules
+      - /app/public
+    ports:
+      - "3000:3000"
+    profiles:
+      - dev
+
+  api-v1:
+    image: qrius-api-v1
+    build:
+      target: dev
+      context: ./applications/EBPI-API
+      dockerfile: Dockerfile
+    ports:
+      - "0:5000"
+    profiles:
+      - dev
+  
+  portfolio-prod:
+    image: qrius-portfolio
+    build:
+      target: prod
+      context: ./applications/Qrius-Portfolio
+      dockerfile: Dockerfile
+    volumes:
+      - ./applications/Qrius-Portfolio:/app
+      - /app/node_modules
+      - /app/public
+    ports:
+      - "3000:3000"
+    profiles: [prod]
+
+  nginx:
+    image: nginx-proxy
+    build:
+      context: ./applications/nginx-reverse-proxy
+      dockerfile: Dockerfile
+    volumes:
+      - ./applications/nginx-reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+      - "443:443"
+    profiles: [dev]
+    depends_on:
+      - portfolio-dev
+      - api-v1

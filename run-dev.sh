@@ -1,0 +1,1 @@
+COMPOSE_BAKE=true docker compose --profile dev up --build
