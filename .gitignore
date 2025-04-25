@@ -1,1 +1,2 @@
 ./applications/*
+applications/nginx-reverse-proxy/nginx.conf
