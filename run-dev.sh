@@ -1,1 +1,1 @@
-COMPOSE_BAKE=true docker compose --profile dev up --build
+sudo COMPOSE_BAKE=true docker compose --profile frontend-dev --profile api-v1 up --build --force-recreate --remove-orphans

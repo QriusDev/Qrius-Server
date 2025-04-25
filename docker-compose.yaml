@@ -11,8 +11,9 @@ services:
       - /app/public
     ports:
       - "3000:3000"
-    profiles:
-      - dev
+    profiles: [frontend-dev]
+    depends_on:
+      - nginx
 
   api-v1:
     image: qrius-api-v1
@@ -22,8 +23,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "0:5000"
-    profiles:
-      - dev
+    profiles: [api-v1]
+    depends_on:
+      - nginx
   
   portfolio-prod:
     image: qrius-portfolio
@@ -37,7 +39,9 @@ services:
       - /app/public
     ports:
       - "3000:3000"
-    profiles: [prod]
+    profiles: [frontend-prod]
+    depends_on:
+      - nginx
 
   nginx:
     image: nginx-proxy
@@ -49,7 +53,3 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    profiles: [dev]
-    depends_on:
-      - portfolio-dev
-      - api-v1
