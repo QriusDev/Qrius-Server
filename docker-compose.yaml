@@ -1,5 +1,6 @@
 services:
   portfolio-dev:
+    container_name: qrius-portfolio-service
     image: qrius-portfolio
     build:
       target: dev
@@ -12,10 +13,9 @@ services:
     ports:
       - "3000:3000"
     profiles: [frontend-dev]
-    depends_on:
-      - nginx
 
   api-v1:
+    container_name: qrius-api-v1-service
     image: qrius-api-v1
     build:
       target: dev
@@ -24,10 +24,13 @@ services:
     ports:
       - "0:5000"
     profiles: [api-v1]
-    depends_on:
-      - nginx
+    volumes:
+      - ./applications/EBPI-API:/api
+    stdin_open: true
+    tty: true
   
   portfolio-prod:
+    container_name: qrius-portfolio-service
     image: qrius-portfolio
     build:
       target: prod
@@ -40,10 +43,9 @@ services:
     ports:
       - "3000:3000"
     profiles: [frontend-prod]
-    depends_on:
-      - nginx
 
   nginx:
+    container_name: qrius-nginx
     image: nginx-proxy
     build:
       context: ./applications/nginx-reverse-proxy
