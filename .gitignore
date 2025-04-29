@@ -1,2 +1,3 @@
 ./applications/*
 applications/nginx-reverse-proxy/nginx.conf
+applications/nginx-reverse-proxy/certs/*
